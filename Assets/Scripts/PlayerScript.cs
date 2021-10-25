@@ -12,13 +12,18 @@ public class PlayerScript : MonoBehaviour
 
     public Text score;
 
+    public Text WinText;
+
     private int scoreValue = 0;
+
+    private bool facingRight = true;
 
     // Start is called before the first frame update
     void Start()
     {
         rd2d = GetComponent<Rigidbody2D>();
         score.text = scoreValue.ToString();
+       
     }
 
     // Update is called once per frame
@@ -33,6 +38,24 @@ public class PlayerScript : MonoBehaviour
             Application.Quit();
         }
 
+    if (facingRight == false && hozMovement > 0)
+        {
+            Flip();
+        }
+    else if (facingRight == true && hozMovement < 0)
+        {
+            Flip();
+        }
+    }
+
+    void SetScoreText ()
+    {
+        score.text = "Score" + scoreValue.ToString();
+
+        if (scoreValue >= 4)
+        {
+            WinText.text = "You Win! Game created by Carlos";
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -56,6 +79,15 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector2 Scaler = transform.localScale;
+        Scaler.x = Scaler.x * -1;
+        transform.localScale = Scaler;
+    }
+     
 }
     
 
